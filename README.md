@@ -1,5 +1,6 @@
 # trade-risk-calculation
 
+![Python](https://img.shields.io/badge/Python-3.4.3-blue.svg)
 ![License](https://img.shields.io/badge/license-Apache 2.0-red.svg)
 
 <p align="left">
