@@ -6,4 +6,4 @@
   <img width="700" alt="pic" src="https://github.com/dv-lebedev/trade-risk-calculation/blob/master/screenshot.png">
 </p>
 
-Simple python app to calculate trade risk by Sharpe model.
+Simple python app to calculate trade risk by Sharpe's model.
