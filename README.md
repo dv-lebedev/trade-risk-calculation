@@ -7,3 +7,6 @@
 </p>
 
 Simple python app to calculate trade risk by Sharpe's model.
+
+#Dependencies
+-Pandas
