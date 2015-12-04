@@ -15,9 +15,10 @@ limitations under the License.
 
 """
 
-from src import risk_calculation as rc
-from src import csvdata as d
 import pandas as pd
+
+import src.risk_calculation as r_calc
+from src import csvdata as d
 
 
 def get_param(name):
@@ -40,7 +41,7 @@ def get_index_code(historical_prices):
         return index_symbol
     else:
         print("Index '{}' not found.".format(index_symbol))
-        return get_index_code()
+        return get_index_code(historical_prices)
 
 
 def main():
@@ -55,19 +56,21 @@ def main():
     prices = d.get_historical_prices(working_directory, date_time_index, prices_index)
     index_symbol = get_index_code(prices)
 
-    risk_calculation = rc.RiskCalculation(prices, index_symbol)
+    rc = r_calc.RiskCalculation(prices, index_symbol)
 
     print()
 
-    symbols = risk_calculation.risk_params.keys()
+    symbols = rc.risk_params.keys()
+
+    risk_params = rc.risk_params.values()
 
     data = {
-        'b1': [i.b1 for i in risk_calculation.risk_params.values()],
-        'r_value': [i.r_value for i in risk_calculation.risk_params.values()],
-        'weight': [i.weight for i in risk_calculation.risk_params.values()],
-        'balance': [balance * i.weight for i in risk_calculation.risk_params.values()],
-        'risk_limit': [balance * i.weight * risk / 100.0 for i in risk_calculation.risk_params.values()],
-        'commission': [balance * i.weight * commission / 100.0 for i in risk_calculation.risk_params.values()]
+        'b1': [i.b1 for i in risk_params],
+        'r_value': [i.r_value for i in risk_params],
+        'weight': [i.weight for i in risk_params],
+        'balance': [balance * i.weight for i in risk_params],
+        'risk_limit': [balance * i.weight * risk / 100.0 for i in risk_params],
+        'commission': [balance * i.weight * commission / 100.0 for i in risk_params]
     }
 
     df = pd.DataFrame(data, index=symbols)
