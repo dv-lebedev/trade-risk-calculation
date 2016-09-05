@@ -15,7 +15,7 @@ limitations under the License.
 
 """
 
-import src.statistics as stat
+import logic.statistics as stat
 
 
 class RiskParams:

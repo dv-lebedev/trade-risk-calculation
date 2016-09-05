@@ -17,18 +17,26 @@ limitations under the License.
 
 import os
 from os import listdir
-from src.csvfile import read
+from dateutil import parser
 
 
-def get_historical_prices(working_directory, datetime_index, price_index):
+def read(path, datetime_index, price_index):
+    with open(path, 'r') as file:
+        data = []
+        for line in file:
+            items = line.split(',')
+            dt = parser.parse(items[datetime_index])
+            price = float(items[price_index])
+            data.append((dt, price))
+    return data
 
+
+def read_all_files(working_directory, datetime_index, price_index):
     historical_prices = {}
-
     for file in listdir(working_directory):
         if file.endswith(".txt") or file.endswith(".csv"):
             name = file.replace(".txt", "").replace(".csv", "").upper()
             file_path = os.path.join(working_directory, file)
             values = read(file_path, datetime_index, price_index)
             historical_prices[name] = [float(i[1]) for i in values]
-
     return historical_prices

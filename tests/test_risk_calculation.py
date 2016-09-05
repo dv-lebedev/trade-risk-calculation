@@ -16,20 +16,20 @@ limitations under the License.
 """
 
 from unittest import TestCase
-import src.risk_calculation as r
-import src.csvdata as data
+import logic.risk_calculation as r
+import logic.csvutils as data
 
 
 class TestRiskCalculation(TestCase):
 
     def test_get_regressions(self):
-        prices = data.get_historical_prices("../historical-prices", 0, 4)
+        prices = data.read_all_files("../historical-prices", 0, 4)
         risk_calculation = r.RiskCalculation(prices, 'SP500')
 
         self.assertEquals(22 - 1, len(risk_calculation.risk_params))
 
     def test_get_weights(self):
-        prices = data.get_historical_prices("../historical-prices", 0, 4)
+        prices = data.read_all_files("../historical-prices", 0, 4)
         risk_calculation = r.RiskCalculation(prices, 'SP500')
 
         self.assertAlmostEqual(1, sum([val.weight for key, val in risk_calculation.risk_params.items()]))

@@ -16,7 +16,7 @@ limitations under the License.
 """
 
 from unittest import TestCase
-import src.statistics as stat
+import logic.statistics as stat
 
 
 class TestStatistics(TestCase):

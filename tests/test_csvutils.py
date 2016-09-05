@@ -16,19 +16,20 @@ limitations under the License.
 """
 
 from unittest import TestCase
-from src.csvfile import read
+import logic.csvutils as csv
 
 
-class TestCsvRead(TestCase):
-
+class TestCsvData(TestCase):
     def test_read(self):
-
-        csv_data = read("../historical-prices/JPM.txt", 0, 4)
-
+        csv_data = csv.read("../historical-prices/JPM.txt", 0, 4)
         self.assertEquals(473, len(csv_data))
-
         first_price = csv_data[0][1]
         last_price = csv_data[472][1]
-
         self.assertEquals(58.209999, first_price)
         self.assertEquals(66.510002, last_price)
+
+    def test_get_historical_prices(self):
+        historical_prices = csv.read_all_files("../historical-prices", 0, 4)
+        self.assertEquals(22, len(historical_prices))
+        for key, value in historical_prices.items():
+            self.assertEquals(473, len(value))

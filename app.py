@@ -17,8 +17,8 @@ limitations under the License.
 
 import pandas as pd
 
-import src.risk_calculation as r_calc
-from src import csvdata as d
+import logic.risk_calculation as r_calc
+from logic import csvutils as d
 
 
 def get_param(name):
@@ -53,7 +53,7 @@ def main():
     risk = get_param("Risk %")
     commission = get_param("Commission %")
 
-    prices = d.get_historical_prices(working_directory, date_time_index, prices_index)
+    prices = d.read_all_files(working_directory, date_time_index, prices_index)
     index_symbol = get_index_code(prices)
 
     rc = r_calc.RiskCalculation(prices, index_symbol)
