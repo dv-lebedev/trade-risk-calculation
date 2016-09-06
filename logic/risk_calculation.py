@@ -15,26 +15,27 @@ limitations under the License.
 
 """
 
-import logic.statistics as stat
+import scipy.stats as stats
 
 
 class RiskParams:
     def __init__(self, b0=.0, b1=.0, r_value=.0, r_squared=.0,
-                 weight=.0, balance=.0, risk=.0, commission=.0):
+                 weight=.0, trade_volume=.0, risk=.0, commission=.0):
         self.b0 = b0
         self.b1 = b1
         self.r_value = r_value
         self.r_squared = r_squared
         self.weight = weight
-        self.balance = balance
+        self.trade_volume = trade_volume
         self.risk = risk
         self.commission = commission
 
 
 class RiskCalculation:
-    def __init__(self, historical_prices=None, index_symbol=str()):
+    def __init__(self, historical_prices=None, index_symbol=str(), r_value_min_abs=.0):
         self.index_symbol = index_symbol
         self.historical_prices = historical_prices
+        self.r_value_min_abs = r_value_min_abs
         self.risk_params = {}
         self.set_regressions()
         self.set_weights()
@@ -44,8 +45,10 @@ class RiskCalculation:
         for item in self.historical_prices:
             if item != self.index_symbol:
                 prices = self.historical_prices[item]
-                alpha, beta, cor, det = stat.get_regression(prices, index_values)
-                self.risk_params[item] = RiskParams(b0=alpha, b1=beta, r_value=cor, r_squared=det)
+                alpha, beta, cor, det, std_err = stats.linregress(prices, index_values)
+                if abs(cor) >= abs(self.r_value_min_abs):
+                    self.risk_params[item] = RiskParams(
+                        b0=alpha, b1=beta, r_value=cor, r_squared=det)
 
     def set_weights(self):
         summary = .0

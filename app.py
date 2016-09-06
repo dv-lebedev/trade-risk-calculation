@@ -56,8 +56,7 @@ def main():
     prices = d.read_all_files(working_directory, date_time_index, prices_index)
     index_symbol = get_index_code(prices)
 
-    rc = r_calc.RiskCalculation(prices, index_symbol)
-
+    rc = r_calc.RiskCalculation(prices, index_symbol, r_value_min_abs=0.6)
     print()
 
     symbols = rc.risk_params.keys()
