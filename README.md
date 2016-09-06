@@ -10,7 +10,8 @@
 Simple python app to calculate trade risk by Sharpe's model.
 
 ##Dependencies
-- Pandas
+- pandas
+- scipy
 
 ##License
 [Apache 2.0](LICENSE)
