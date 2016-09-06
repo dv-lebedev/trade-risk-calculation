@@ -36,7 +36,6 @@ def get_param(name):
 def get_index_code(historical_prices):
     index_symbol = input("Index symbol : ").upper()
     if index_symbol in historical_prices.keys():
-        print("Selected index symbol : {}".format(index_symbol))
         return index_symbol
     else:
         print("Index '{}' not found.".format(index_symbol))
@@ -66,14 +65,14 @@ def main():
         'b1': [i.b1 for i in risk_params],
         'r_value': [i.r_value for i in risk_params],
         'weight': [i.weight for i in risk_params],
-        'balance': [balance * i.weight for i in risk_params],
+        'trade_volume': [balance * i.weight for i in risk_params],
         'risk_limit': [balance * i.weight * risk / 100.0 for i in risk_params],
         'commission': [balance * i.weight * commission / 100.0 for i in risk_params]
     }
 
     df = pd.DataFrame(data, index=symbols)
 
-    cols = ['b1', 'r_value', 'weight', 'balance', 'risk_limit', 'commission']
+    cols = ['b1', 'r_value', 'weight', 'trade_volume', 'risk_limit', 'commission']
 
     df = df[cols]
 

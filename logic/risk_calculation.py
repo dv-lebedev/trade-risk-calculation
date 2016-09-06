@@ -45,7 +45,7 @@ class RiskCalculation:
         for item in self.historical_prices:
             if item != self.index_symbol:
                 prices = self.historical_prices[item]
-                alpha, beta, cor, det, std_err = stats.linregress(prices, index_values)
+                beta, alpha, cor, det, std_err = stats.linregress(prices, index_values)
                 if abs(cor) >= abs(self.r_value_min_abs):
                     self.risk_params[item] = RiskParams(
                         b0=alpha, b1=beta, r_value=cor, r_squared=det)
